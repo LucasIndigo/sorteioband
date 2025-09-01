@@ -21,7 +21,7 @@ const sheets = google.sheets({ version: "v4", auth });
 
 // Substitua pelo ID da sua planilha
 const SPREADSHEET_ID = "1WLV0MNzw_91W0ZQJ1QN1eOk3fD6oRw-lIRGr4S1qfWk";
-const RANGE = "Página1!A:C"; // Ajuste conforme suas colunas: A=nome, B=telefone, C=instagram
+const RANGE = "Página1!B:D"; // Ajuste conforme suas colunas: A=nome, B=telefone, C=instagram
 
 app.get("/participantes", async (req, res) => {
   try {
