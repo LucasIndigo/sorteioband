@@ -42,10 +42,12 @@ app.get("/participantes", async (req, res) => {
       instagram: r[2] || ""
     }));
 
-    // Inserir no Supabase
-    for (const row of data) {
-      await supabase.from("participantes").insert([row]);
-    }
+   // Inserir no Supabase
+for (const row of data) {
+  const { error } = await supabase.from("participantes").insert([row]);
+  if (error) console.error("Erro ao inserir:", error);
+}
+
 
     res.json(data);
   } catch (err) {
