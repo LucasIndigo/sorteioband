@@ -44,7 +44,7 @@ app.get("/participantes", async (req, res) => {
 
     // Inserir no Supabase
     for (const row of data) {
-      await supabase.from("Participantes").insert([row]);
+      await supabase.from("participantes").insert([row]);
     }
 
     res.json(data);
