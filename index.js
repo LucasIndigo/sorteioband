@@ -8,31 +8,35 @@ const port = process.env.PORT || 3000;
 // --- Supabase ---
 const supabase = createClient(
   "https://qvlfdxyawrikfqowkwjy.supabase.co",
-  "SUA_API_KEY_AQUI"
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF2bGZkeHlhd3Jpa2Zxb3drd2p5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY2NzEwNjYsImV4cCI6MjA3MjI0NzA2Nn0.rSKG5kIv2AEZ7MgD-H4KXSwKAJXUIQMxU8ZQKgCePD8"
 );
 
 // --- Google Sheets ---
 const auth = new google.auth.GoogleAuth({
   keyFile: "service_account.json",
-  scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
+  scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"]
 });
 
 const sheets = google.sheets({ version: "v4", auth });
 
+// Substitua pelo ID da sua planilha
+const SPREADSHEET_ID = "1WLV0MNzw_91W0ZQJ1QN1eOk3fD6oRw-lIRGr4S1qfWk";
+const RANGE = "Página1!A:C"; // Ajuste conforme suas colunas: A=nome, B=telefone, C=instagram
+
 app.get("/participantes", async (req, res) => {
   try {
     const response = await sheets.spreadsheets.values.get({
-      spreadsheetId: "ID_DA_SUA_PLANILHA",
-      range: "Form Responses 1",
+      spreadsheetId: SPREADSHEET_ID,
+      range: RANGE
     });
 
     const rows = response.data.values;
     if (!rows.length) return res.json([]);
 
     const data = rows.slice(1).map(r => ({
-      nome: r[0],
-      telefone: r[1],
-      instagram: r[2],
+      nome: r[0] || "",
+      telefone: r[1] || "",
+      instagram: r[2] || ""
     }));
 
     // Inserir no Supabase
