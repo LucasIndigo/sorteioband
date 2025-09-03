@@ -45,8 +45,12 @@ app.get("/participantes", async (req, res) => {
    // Inserir no Supabase
 for (const row of data) {
   const { error } = await supabase.from("participantes").insert([row]);
-  if (error) console.error("Erro ao inserir:", error);
+  if (error) {
+    console.error("Erro ao inserir:", error.message);
+    return res.status(500).json({ error: error.message });
+  }
 }
+
 
 
     res.json(data);
