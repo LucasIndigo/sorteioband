@@ -42,14 +42,17 @@ app.get("/participantes", async (req, res) => {
       instagram: r[2] || ""
     }));
 
-   // Inserir no Supabase
-for (const row of data) {
-  const { error } = await supabase.from("participantes").insert([row]);
-  if (error) {
-    console.error("Erro ao inserir:", error.message);
-    return res.status(500).json({ error: error.message });
-  }
+// Inserir/atualizar no Supabase sem duplicar (nome + telefone)
+const { error } = await supabase
+  .from("participantes")
+  .upsert(data, { onConflict: ["nome", "telefone"] }) 
+  .select();
+
+if (error) {
+  console.error("Erro ao inserir:", error.message);
+  return res.status(500).json({ error: error.message });
 }
+
 
 
 
