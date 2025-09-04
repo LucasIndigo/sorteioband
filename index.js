@@ -24,7 +24,7 @@ const sheets = google.sheets({ version: "v4", auth });
 
 // Substitua pelo ID da sua planilha
 const SPREADSHEET_ID = "1zdQzfmPRCME0fXgTlxtPoUlihYoY4aL-zVoGR96wEa8";
-const RANGE = "lpbfm!B:D"; // Ajuste conforme suas colunas: A=nome, B=telefone, C=Bairro
+const RANGE = "'lpbfm'!B:D"; // Ajuste conforme suas colunas: A=nome, B=telefone, C=Bairro
 
 app.get("/participantes", async (req, res) => {
   try {
@@ -39,8 +39,9 @@ app.get("/participantes", async (req, res) => {
     const data = rows.slice(1).map(r => ({
       nome: r[0] || "",
       telefone: r[1] || "",
-      instagram: r[2] || ""
+      bairro: r[2] || ""
     }));
+console.log("Linhas encontradas:", rows);
 
 // Inserir/atualizar no Supabase sem duplicar (nome + telefone)
 const { error } = await supabase
