@@ -46,7 +46,7 @@ console.log("Linhas encontradas:", rows);
 // Inserir/atualizar no Supabase sem duplicar (nome + telefone)
 const { error } = await supabase
   .from("participantes")
-  .upsert(data, { onConflict: ["nome", "telefone"] }) 
+  .upsert(data, { onConflict: ["telefone"] }) 
   .select();
 
 if (error) {
